@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bayfield Music student community and showcase.">
+  <title>BIFE Music | Student Community</title>
+  <style>
+    :root {
+      --bg: #101114;
+      --panel: #191b20;
+      --panel-2: #20232a;
+      --text: #f5f3ef;
+      --muted: #a7a8ad;
+      --accent: #d5ff4f;
+      --line: rgba(255,255,255,.12);
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(16,17,20,.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 850; letter-spacing: -.05em; font-size: 1.25rem; }
+    .brand-mark {
+      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px;
+      background: var(--accent); color: #111; font-weight: 950; font-size: 1.15rem;
+    }
+    .bife-brand { order: 2; width: 142px; height: 68px; overflow: hidden; justify-content: center; }
+    .bife-brand img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .nav-links { order: 1; }
+    .nav-links { display: flex; align-items: center; gap: 30px; font-size: .92rem; font-weight: 650; }
+    .nav-links a { color: #d7d7d9; transition: color .2s; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--accent); }
+    .years-menu { position: relative; }
+    .years-menu > a { display: inline-flex; align-items: center; gap: 7px; }
+    .dropdown {
+      display: none; position: absolute; top: 100%; right: 0; min-width: 170px;
+      padding: 9px; margin-top: 18px; border: 1px solid var(--line); border-radius: 14px;
+      background: #1b1d22; box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+    .dropdown a { display: block; padding: 9px 11px; border-radius: 8px; }
+    .dropdown a:hover { background: var(--panel-2); }
+    .years-menu:hover .dropdown, .years-menu:focus-within .dropdown { display: block; }
+    .menu-toggle { display: none; border: 1px solid var(--line); color: var(--text); background: transparent; border-radius: 10px; padding: 9px 12px; font: inherit; }
+    .hero { padding: 104px 0 92px; overflow: hidden; position: relative; }
+    .hero::after {
+      content: ""; position: absolute; width: 520px; height: 520px; border-radius: 50%;
+      right: -130px; top: -170px; background: radial-gradient(circle, rgba(213,255,79,.15), transparent 68%);
+      pointer-events: none;
+    }
+    .eyebrow { color: var(--accent); font-size: .76rem; text-transform: uppercase; letter-spacing: .2em; font-weight: 800; }
+    h1 { max-width: 820px; margin: 18px 0; font-size: clamp(3rem, 8vw, 6.7rem); line-height: .98; letter-spacing: -.075em; }
+    h1 span { color: var(--accent); }
+    .hero-copy { max-width: 600px; color: var(--muted); font-size: 1.12rem; margin: 24px 0 32px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 13px 19px; border-radius: 9px; background: var(--accent); color: #111;
+      font-weight: 800; transition: transform .2s, background .2s;
+    }
+    .button:hover { transform: translateY(-2px); background: #e2ff82; }
+    .button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); margin-left: 9px; }
+    section { padding: 82px 0; border-top: 1px solid var(--line); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 32px; }
+    h2 { font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.055em; line-height: 1.05; margin: 10px 0 0; }
+    .section-intro { max-width: 480px; color: var(--muted); margin: 0; }
+    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+    .about-grid p { color: var(--muted); font-size: 1.05rem; }
+    .feature-panel {
+      min-height: 260px; border: 1px solid var(--line); border-radius: 20px; padding: 30px;
+      background: linear-gradient(145deg, #252a2c, #17191e); display: flex; flex-direction: column; justify-content: end;
+    }
+    .feature-panel strong { font-size: 1.6rem; letter-spacing: -.04em; }
+    .feature-panel span { color: var(--muted); }
+    .year-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .year-card {
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 190px;
+      padding: 24px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel);
+      transition: transform .2s, border-color .2s, background .2s;
+    }
+    .year-card:hover { transform: translateY(-4px); border-color: rgba(213,255,79,.65); background: #202329; }
+    .year-card .year { font-size: 2.6rem; font-weight: 850; letter-spacing: -.07em; }
+    .year-card .arrow { color: var(--accent); font-size: 1.3rem; align-self: end; }
+    .student-section { scroll-margin-top: 100px; }
+    .student-placeholder {
+      padding: 28px; border: 1px dashed rgba(255,255,255,.22); border-radius: 14px;
+      color: var(--muted); background: rgba(255,255,255,.025);
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-card { padding: 26px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+    .contact-card p { color: var(--muted); }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: .85rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 20px; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, var(--max)); }
+      .nav { min-height: 70px; flex-wrap: wrap; }
+      .bife-brand { order: 2; width: 116px; height: 58px; }
+      .menu-toggle { display: block; order: 1; }
+      .nav-links {
+        display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0;
+        padding: 5px 0 16px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links > a, .years-menu > a { display: block; padding: 12px 4px; }
+      .dropdown { position: static; display: block; box-shadow: none; margin: 0; padding: 0 0 6px 12px; border: 0; background: transparent; }
+      .dropdown a { padding: 7px 10px; }
+      .hero { padding: 76px 0 70px; }
+      section { padding: 64px 0; }
+      .section-head { display: block; }
+      .section-intro { margin-top: 16px; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 22px; }
+      .year-grid { grid-template-columns: 1fr; }
+      .year-card { min-height: 145px; }
+      .button.secondary { margin: 10px 0 0; }
+      footer .wrap { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand bife-brand" href="https://www.bife.ie/" target="_blank" rel="noopener noreferrer" aria-label="Visit the official BIFE website">
+        <img src="https://cdn-resources.ableton.com/resources/filer_thumbnails/f4/5b/f45b06af-4753-4834-be8c-a47e6364c6fa/bray_institute_of_further_education.jpg__600x600_q85_crop_subsampling-2_upscale.jpg" alt="BIFE — Bray Institute of Further Education">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu ☰</button>
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <div class="years-menu">
+          <a href="#students">Student years <span aria-hidden="true">⌄</span></a>
+          <div class="dropdown">
+            <a href="#year-2027">2027 students</a>
+            <a href="#year-2026">2026 students</a>
+            <a href="#year-2025">2025 students</a>
+          </div>
+        </div>
+        <a href="#about">About us</a>
+        <a href="#contact">Contact us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="home" class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Create · Collaborate · Perform</div>
+        <h1>Made by students.<br><span>Driven by music.</span></h1>
+        <p class="hero-copy">Welcome to the BIFE Music student community — a place to discover the people, projects and music being created by our students.</p>
+        <a class="button" href="#students">Explore student years <span aria-hidden="true">↗</span></a>
+        <a class="button secondary" href="#about">Discover Bayfield</a>
+      </div>
+    </div>
+
+    <section id="about">
+      <div class="wrap about-grid">
+        <div>
+          <div class="eyebrow">About us</div>
+          <h2>A community built around music.</h2>
+          <p>BIFE Music brings students together to develop their creativity, skills and confidence through music. This website is a space to showcase student work, celebrate achievements and connect with each year's group.</p>
+          <p>Replace this introduction with your own course, department and college information.</p>
+        </div>
+        <div class="feature-panel">
+          <span class="eyebrow">The Bayfield approach</span>
+          <strong>Learn it. Make it. Share it.</strong>
+          <span>Music, production, performance and collaboration.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="students">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Student directory</div><h2>Find your year.</h2></div>
+          <p class="section-intro">Choose a year to explore its students, projects, performances and other work. New year groups can be added as the community grows.</p>
+        </div>
+        <div class="year-grid">
+          <a class="year-card" href="#year-2027"><span class="eyebrow">Student group</span><span class="year">2027</span><span class="arrow">Explore year ↗</span></a>
+          <a class="year-card" href="#year-2026"><span class="eyebrow">Student group</span><span class="year">2026</span><span class="arrow">Explore year ↗</span></a>
+          <a class="year-card" href="#year-2025"><span class="eyebrow">Student group</span><span class="year">2025</span><span class="arrow">Explore year ↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="student-section" id="year-2027">
+      <div class="wrap">
+        <div class="eyebrow">Student year</div><h2>2027</h2>
+        <div class="student-placeholder">Add the 2027 student profiles, photos, projects, tracks, videos and links here.</div>
+      </div>
+    </section>
+    <section class="student-section" id="year-2026">
+      <div class="wrap">
+        <div class="eyebrow">Student year</div><h2>2026</h2>
+        <div class="student-placeholder">Add the 2026 student profiles, photos, projects, tracks, videos and links here.</div>
+      </div>
+    </section>
+    <section class="student-section" id="year-2025">
+      <div class="wrap">
+        <div class="eyebrow">Student year</div><h2>2025</h2>
+        <div class="student-placeholder">Add the 2025 student profiles, photos, projects, tracks, videos and links here.</div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap contact-grid">
+        <div>
+          <div class="eyebrow">Get in touch</div>
+          <h2>Contact Bayfield Music.</h2>
+          <p class="section-intro">Have a question about the programme or want to find out more? Add your preferred contact details below.</p>
+        </div>
+        <div class="contact-card">
+          <strong>BIFE Music</strong>
+          <p>Email: <a href="mailto:hello@example.com">hello@example.com</a></p>
+          <p>Phone: Add contact number</p>
+          <p>Location: Add college or department address</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>© <span id="year"></span> BIFE Music</span><span>Student community · Music · Creativity</span></div></footer>
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
